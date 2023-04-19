@@ -1,6 +1,14 @@
-export function Modal({ children, onClose }: any) {
+import { ReactNode } from "react";
+
+interface Props {
+  children: ReactNode;
+  // onClose: () => void;
+}
+
+export function Modal({ children }: Props) {
+  // onClick={onClose}
   return (
-    <div className="modal-backdrop" onClick={onClose}>
+    <div className="modal-backdrop">
       <dialog
         className="modal"
         open

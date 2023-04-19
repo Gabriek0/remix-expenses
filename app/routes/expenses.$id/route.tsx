@@ -1,6 +1,11 @@
 // Components
+import { Modal } from "~/components/Util";
 import { ExpenseForm } from "~/components/Expenses";
 
 export default function ExpensesDynamicPage() {
-  return <ExpenseForm />;
+  return (
+    <Modal>
+      <ExpenseForm />
+    </Modal>
+  );
 }
