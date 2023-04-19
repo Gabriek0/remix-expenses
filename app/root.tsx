@@ -1,3 +1,7 @@
+import { LinksFunction } from "@remix-run/node";
+
+import styles from "~/styles/root.css";
+
 import {
   Links,
   LiveReload,
@@ -6,6 +10,15 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
+
+export const links: LinksFunction = () => {
+  return [
+    {
+      rel: "stylesheet",
+      href: styles,
+    },
+  ];
+};
 
 export default function App() {
   return (
