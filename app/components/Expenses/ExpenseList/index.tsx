@@ -10,7 +10,13 @@ export function ExpensesList({ expenses }: Props) {
     <ol id="expenses-list">
       {expenses.map((expense) => (
         <li key={expense.id}>
-          <ExpenseListItem title={expense.title} amount={expense.amount} />
+          <ExpenseListItem
+            expense_item={{
+              id: expense.id,
+              amount: expense.amount,
+              title: expense.title,
+            }}
+          />
         </li>
       ))}
     </ol>

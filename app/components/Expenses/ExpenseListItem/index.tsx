@@ -1,9 +1,13 @@
+import { Link } from "@remix-run/react";
+import { Expense } from "~/models/Expense";
+
 interface Props {
-  title: string;
-  amount: number;
+  expense_item: ExpenseItem;
 }
 
-export function ExpenseListItem({ title, amount }: Props) {
+type ExpenseItem = Omit<Expense, "created_at">;
+
+export function ExpenseListItem({ expense_item }: Props) {
   function deleteExpenseItemHandler() {
     // tbd
   }
@@ -11,12 +15,12 @@ export function ExpenseListItem({ title, amount }: Props) {
   return (
     <article className="expense-item">
       <div>
-        <h2 className="expense-title">{title}</h2>
-        <p className="expense-amount">${amount.toFixed(2)}</p>
+        <h2 className="expense-title">{expense_item.title}</h2>
+        <p className="expense-amount">${expense_item.amount.toFixed(2)}</p>
       </div>
       <menu className="expense-actions">
         <button onClick={deleteExpenseItemHandler}>Delete</button>
-        <a href="tbd">Edit</a>
+        <Link to={expense_item.id}>Edit</Link>
       </menu>
     </article>
   );

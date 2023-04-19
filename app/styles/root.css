@@ -160,8 +160,8 @@ button {
   position: fixed;
   top: 25vh;
   width: 30rem;
-  border-radius: 6px;
   border: none;
+  border-radius: 6px;
   background-color: var(--color-gray-50);
   animation: fade-slide-down 0.5s ease-out forwards;
 }

@@ -1,3 +1,4 @@
+import { useNavigate } from "@remix-run/react";
 import { ReactNode } from "react";
 
 interface Props {
@@ -6,12 +7,13 @@ interface Props {
 }
 
 export function Modal({ children }: Props) {
-  // onClick={onClose}
+  const navigate = useNavigate();
+
   return (
-    <div className="modal-backdrop">
+    <div className="modal-backdrop" onClick={() => navigate("/expenses")}>
       <dialog
-        className="modal"
         open
+        className="modal"
         onClick={(event) => event.stopPropagation()}
       >
         {children}
