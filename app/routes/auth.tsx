@@ -1,5 +1,8 @@
 import { LinksFunction } from "@remix-run/node";
 
+// Components
+import AuthForm from "~/components/AuthForm";
+
 // Styles
 import styles from "~/styles/auth.css";
 
@@ -13,9 +16,5 @@ export const links: LinksFunction = () => {
 };
 
 export default function AuthPage() {
-  return (
-    <>
-      <h1>Auth</h1>
-    </>
-  );
+  return <AuthForm />;
 }
