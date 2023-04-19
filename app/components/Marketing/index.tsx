@@ -1,17 +1,27 @@
-export function PricingPlan({ title, price, perks, icon }: any) {
-  const Icon = icon;
+import { useMemo } from "react";
+
+// Models
+import { Plan } from "~/models/Plan";
+
+interface Props {
+  plan: Plan;
+}
+
+export function PricingPlan({ plan }: Props) {
+  const Icon = useMemo(() => plan.icon, [plan.icon]);
+
   return (
     <article>
       <header>
         <div className="icon">
           <Icon />
         </div>
-        <h2>{title}</h2>
-        <p>{price}</p>
+        <h2>{plan.title}</h2>
+        <p>{plan.price}</p>
       </header>
       <div className="plan-content">
         <ol>
-          {perks.map((perk) => (
+          {plan.perks.map((perk) => (
             <li key={perk}>{perk}</li>
           ))}
         </ol>
