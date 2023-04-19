@@ -9,9 +9,6 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 
-// Components
-import Header from "./components/Header";
-
 // Styles
 import styles from "~/styles/root.css";
 
@@ -44,7 +41,6 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Header />
         <Outlet />
         <ScrollRestoration />
         <Scripts />

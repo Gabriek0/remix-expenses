@@ -1,5 +1,6 @@
 import { LinksFunction } from "@remix-run/node";
 import { Outlet } from "@remix-run/react";
+import { ExpensesHeader } from "~/components/Expenses";
 
 // Styles
 import styles from "~/styles/expenses.css";
@@ -14,5 +15,10 @@ export const links: LinksFunction = () => {
 };
 
 export default function ExpensesParentPage() {
-  return <Outlet />;
+  return (
+    <>
+      <ExpensesHeader />
+      <Outlet />
+    </>
+  );
 }

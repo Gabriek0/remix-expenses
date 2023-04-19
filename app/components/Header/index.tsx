@@ -15,9 +15,6 @@ function Header() {
           <li>
             <NavLink to="/pricing">Pricing</NavLink>
           </li>
-          <li>
-            <NavLink to="/expenses">Expenses</NavLink>
-          </li>
         </ul>
       </nav>
       <nav id="cta-nav">

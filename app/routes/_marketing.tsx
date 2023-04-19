@@ -2,6 +2,10 @@ import { LinksFunction } from "@remix-run/node";
 
 import { Outlet } from "@remix-run/react";
 
+// Components
+import Header from "~/components/Header";
+
+// Styles
 import styles from "~/styles/marketing.css";
 
 export const links: LinksFunction = () => {
@@ -14,5 +18,10 @@ export const links: LinksFunction = () => {
 };
 
 export default function MarketingParentPage() {
-  return <Outlet />;
+  return (
+    <>
+      <Header />
+      <Outlet />
+    </>
+  );
 }
