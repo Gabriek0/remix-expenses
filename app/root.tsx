@@ -13,6 +13,16 @@ import {
 
 export const links: LinksFunction = () => {
   return [
+    { rel: "preconnect", href: "https://fonts.googleapis.com" },
+    {
+      rel: "preconnect",
+      href: "https://fonts.gstatic.com",
+      crossOrigin: undefined,
+    },
+    {
+      rel: "stylesheet",
+      href: "https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap",
+    },
     {
       rel: "stylesheet",
       href: styles,
