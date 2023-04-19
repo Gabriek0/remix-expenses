@@ -1,4 +1,4 @@
-import { LinksFunction } from "@remix-run/node";
+import { LinksFunction, V2_MetaFunction } from "@remix-run/node";
 
 import {
   Links,
@@ -27,6 +27,14 @@ export const links: LinksFunction = () => {
     {
       rel: "stylesheet",
       href: styles,
+    },
+  ];
+};
+
+export const meta: V2_MetaFunction = () => {
+  return [
+    {
+      title: "RemixExpenses",
     },
   ];
 };
