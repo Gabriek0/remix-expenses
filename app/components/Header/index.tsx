@@ -1,4 +1,6 @@
-import { Link } from "@remix-run/react";
+import { Link, NavLink } from "@remix-run/react";
+
+// Components
 import { Logo } from "~/components/Util";
 
 function Header() {
@@ -8,13 +10,13 @@ function Header() {
       <nav id="main-nav">
         <ul>
           <li>
-            <Link to="/">Home</Link>
+            <NavLink to="/">Home</NavLink>
           </li>
           <li>
-            <Link to="/pricing">Pricing</Link>
+            <NavLink to="/pricing">Pricing</NavLink>
           </li>
           <li>
-            <Link to="/expenses">Expenses</Link>
+            <NavLink to="/expenses">Expenses</NavLink>
           </li>
         </ul>
       </nav>
