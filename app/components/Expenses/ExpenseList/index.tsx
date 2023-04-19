@@ -1,15 +1,16 @@
 import { ExpenseListItem } from "~/components/Expenses";
+import { Expense } from "~/models/Expense";
 
-export function ExpensesList({ expenses }: any) {
+interface Props {
+  expenses: Expense[];
+}
+
+export function ExpensesList({ expenses }: Props) {
   return (
     <ol id="expenses-list">
-      {expenses.map((expense: any) => (
+      {expenses.map((expense) => (
         <li key={expense.id}>
-          <ExpenseListItem
-            id={expense.id}
-            title={expense.title}
-            amount={expense.amount}
-          />
+          <ExpenseListItem title={expense.title} amount={expense.amount} />
         </li>
       ))}
     </ol>

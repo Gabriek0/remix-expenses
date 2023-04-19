@@ -1,6 +1,13 @@
 import { useMemo } from "react";
 
-function calculateSummaryStatistics(expenses: any) {
+// Models
+import { Expense } from "~/models/Expense";
+
+export interface Props {
+  expenses: Expense[];
+}
+
+function calculateSummaryStatistics(expenses: Expense[]) {
   const amounts = expenses.map((expense) => +expense.amount);
   const maxAmount = Math.max(...amounts);
   const minAmount = Math.min(...amounts);
@@ -10,7 +17,7 @@ function calculateSummaryStatistics(expenses: any) {
   return { minAmount, maxAmount, sum, mean };
 }
 
-export function ExpenseStatistics({ expenses }) {
+export function ExpenseStatistics({ expenses }: Props) {
   const { minAmount, maxAmount, sum, mean } = useMemo(
     () => calculateSummaryStatistics(expenses),
     [expenses]

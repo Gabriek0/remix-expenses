@@ -1,6 +1,12 @@
 import { ChartBar } from "~/components/Expenses";
 
-export function Chart({ expenses }: any) {
+import { Expense } from "~/models/Expense";
+
+export interface Props {
+  expenses: Expense[];
+}
+
+export function Chart({ expenses }: Props) {
   const chartDataPoints = [
     { label: "Jan", value: 0 },
     { label: "Feb", value: 0 },
@@ -17,7 +23,7 @@ export function Chart({ expenses }: any) {
   ];
 
   for (const expense of expenses) {
-    const expenseMonth = new Date(expense.date).getMonth(); // starting at 0 => January => 0
+    const expenseMonth = new Date(expense.created_at).getMonth(); // starting at 0 => January => 0
     chartDataPoints[expenseMonth].value += expense.amount;
   }
 
