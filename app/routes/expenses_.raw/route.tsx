@@ -1,7 +1,5 @@
-export default function ExpensesRawPage() {
-  return (
-    <>
-      <h1>Expenses Raw</h1>
-    </>
-  );
+import { expenses_data_mock } from "~/models/Expense";
+
+export function loader() {
+  return expenses_data_mock;
 }
