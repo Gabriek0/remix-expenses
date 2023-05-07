@@ -10,7 +10,7 @@ class ExpensesRepository implements IExpensesRepository {
         data: {
           title,
           amount: +amount,
-          date,
+          date: new Date(date),
         },
       });
 
