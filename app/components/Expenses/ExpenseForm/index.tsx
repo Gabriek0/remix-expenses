@@ -1,10 +1,10 @@
-import { Link } from "@remix-run/react";
+import { Form, Link } from "@remix-run/react";
 
 export function ExpenseForm() {
   const today = new Date().toISOString().slice(0, 10); // yields something like 2023-09-10
 
   return (
-    <form method="post" className="form" id="expense-form">
+    <Form method="post" className="form" id="expense-form">
       <p>
         <label htmlFor="title">Expense Title</label>
         <input type="text" id="title" name="title" required maxLength={30} />
@@ -31,6 +31,6 @@ export function ExpenseForm() {
         <button>Save Expense</button>
         <Link to="..">Cancel</Link>
       </div>
-    </form>
+    </Form>
   );
 }
