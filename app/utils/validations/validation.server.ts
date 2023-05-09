@@ -1,11 +1,13 @@
 import { Expense } from "~/models/Expense";
 
+export type Errors = {
+  title?: string;
+  amount?: string;
+  date?: string;
+};
+
 export function validateExpenseInput(expense: Expense): void {
-  let errors = {
-    title: "",
-    amount: "",
-    date: "",
-  };
+  let errors: Errors = {};
 
   if (!isValidTitle(expense.title)) {
     errors.title = "Invalid expense title. Must be at most 30 characters long.";
@@ -20,6 +22,7 @@ export function validateExpenseInput(expense: Expense): void {
   }
 
   if (Object.keys(errors).length > 0) {
+    console.log("Aqui");
     throw errors;
   }
 }
