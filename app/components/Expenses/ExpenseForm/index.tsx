@@ -1,13 +1,18 @@
-import { Form, Link, useActionData } from "@remix-run/react";
-import { useEffect, useMemo } from "react";
-import { action } from "~/routes/_app.expenses.add/route";
+import { Form, Link, useActionData, useNavigation } from "@remix-run/react";
+import { useMemo } from "react";
 import { Errors } from "~/utils/validations/validation.server";
 
 export function ExpenseForm() {
-  const today = new Date().toISOString().slice(0, 10); // yields something like 2023-09-10
-
+  // Hooks
+  const { state } = useNavigation();
   const action_data = useActionData<Errors>();
+
+  // Memo Vars
+  const isSubmitting = useMemo(() => state !== "idle", [state]);
   const errors = useMemo(() => Object.values(action_data || []), [action_data]);
+
+  // Vars
+  const today = new Date().toISOString().slice(0, 10); // yields something like 2023-09-10
 
   return (
     <Form method="post" className="form" id="expense-form">
@@ -43,7 +48,9 @@ export function ExpenseForm() {
       )}
 
       <div className="form-actions">
-        <button>Save Expense</button>
+        <button disabled={isSubmitting}>
+          {isSubmitting ? "Saving..." : "Save Expense"}
+        </button>
         <Link to="..">Cancel</Link>
       </div>
     </Form>
