@@ -8,4 +8,7 @@ export type IExpenseDTO = {
 
 export interface IExpensesRepository {
   add(expense: IExpenseDTO): Promise<Expense>;
+  getAll(): Promise<Expense[]>;
+  getExpenseById(id: string): Promise<Expense | null>;
+  removeById(id: string): Promise<void>;
 }
