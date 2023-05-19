@@ -1,15 +1,51 @@
-import { Form, Link, useActionData, useNavigation } from "@remix-run/react";
 import { useMemo } from "react";
+import { LoaderArgs, json } from "@remix-run/node";
+import {
+  Form,
+  Link,
+  useActionData,
+  useLoaderData,
+  useNavigation,
+} from "@remix-run/react";
+import { expensesRepository } from "~/features/expenses/expenses.server";
+
 import { Errors } from "~/utils/validations/validation.server";
+
+import { Expense } from "~/models/Expense";
+
+type ExpenseData = {
+  title: string;
+  amount: string;
+  date: string;
+};
 
 export function ExpenseForm() {
   // Hooks
   const { state } = useNavigation();
   const action_data = useActionData<Errors>();
+  const loader_data = useLoaderData<Expense>();
 
   // Memo Vars
   const isSubmitting = useMemo(() => state !== "idle", [state]);
   const errors = useMemo(() => Object.values(action_data || []), [action_data]);
+
+  const expense: ExpenseData = useMemo(() => {
+    if (!loader_data) {
+      return {
+        amount: "",
+        date: "",
+        title: "",
+      };
+    }
+
+    return {
+      amount: String(loader_data.amount),
+      date: String(loader_data.date),
+      title: loader_data.title,
+    };
+  }, [loader_data]);
+
+  console.log(expense);
 
   // Vars
   const today = new Date().toISOString().slice(0, 10); // yields something like 2023-09-10
@@ -18,7 +54,14 @@ export function ExpenseForm() {
     <Form method="post" className="form" id="expense-form">
       <p>
         <label htmlFor="title">Expense Title</label>
-        <input type="text" id="title" name="title" required maxLength={30} />
+        <input
+          defaultValue={loader_data.title}
+          type="text"
+          id="title"
+          name="title"
+          required
+          maxLength={30}
+        />
       </p>
 
       <div className="form-row">
