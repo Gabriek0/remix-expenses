@@ -1,5 +1,4 @@
 import { useMemo } from "react";
-import { LoaderArgs, json } from "@remix-run/node";
 import {
   Form,
   Link,
@@ -7,7 +6,6 @@ import {
   useLoaderData,
   useNavigation,
 } from "@remix-run/react";
-import { expensesRepository } from "~/features/expenses/expenses.server";
 
 import { Errors } from "~/utils/validations/validation.server";
 
@@ -40,12 +38,10 @@ export function ExpenseForm() {
 
     return {
       amount: String(loader_data.amount),
-      date: String(loader_data.date),
+      date: String(loader_data.date.slice(0, 10)),
       title: loader_data.title,
     };
   }, [loader_data]);
-
-  console.log(expense);
 
   // Vars
   const today = new Date().toISOString().slice(0, 10); // yields something like 2023-09-10
@@ -68,6 +64,7 @@ export function ExpenseForm() {
         <p>
           <label htmlFor="amount">Amount</label>
           <input
+            defaultValue={expense.amount}
             type="number"
             id="amount"
             name="amount"
@@ -78,7 +75,14 @@ export function ExpenseForm() {
         </p>
         <p>
           <label htmlFor="date">Date</label>
-          <input type="date" id="date" name="date" max={today} required />
+          <input
+            defaultValue={expense.date}
+            type="date"
+            id="date"
+            name="date"
+            max={today}
+            required
+          />
         </p>
       </div>
 
