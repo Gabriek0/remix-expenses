@@ -5,6 +5,7 @@ import { ExpenseForm } from "~/components/Expenses";
 import { LoaderArgs, json } from "@remix-run/node";
 import { expensesRepository } from "~/features/expenses/expenses.server";
 
+/*
 export const loader = async ({ params }: LoaderArgs) => {
   const expenseId = params.id as string;
 
@@ -12,6 +13,7 @@ export const loader = async ({ params }: LoaderArgs) => {
 
   return json(expense);
 };
+*/
 
 export default function ExpensesDynamicPage() {
   return (

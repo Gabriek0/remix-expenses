@@ -1,34 +1,38 @@
 import { useMemo } from "react";
+
 import {
   Form,
   Link,
   useActionData,
   useLoaderData,
+  useMatches,
   useNavigation,
+  useParams,
 } from "@remix-run/react";
 
 import { Errors } from "~/utils/validations/validation.server";
 
 import { Expense } from "~/models/Expense";
 
-type ExpenseData = {
-  title: string;
-  amount: string;
-  date: string;
-};
-
 export function ExpenseForm() {
   // Hooks
+  const { id } = useParams();
   const { state } = useNavigation();
+  const loader_data = useMatches();
   const action_data = useActionData<Errors>();
-  const loader_data = useLoaderData<Expense>();
 
   // Memo Vars
   const isSubmitting = useMemo(() => state !== "idle", [state]);
   const errors = useMemo(() => Object.values(action_data || []), [action_data]);
 
-  const expense: ExpenseData = useMemo(() => {
-    if (!loader_data) {
+  const expense = useMemo(() => {
+    const route_data = loader_data.find(
+      (data) => data.id === "routes/_app.expenses"
+    )?.data as Expense[];
+
+    const data = route_data.find((d) => d.id === id) ?? null;
+
+    if (!data) {
       return {
         amount: "",
         date: "",
@@ -37,9 +41,9 @@ export function ExpenseForm() {
     }
 
     return {
-      amount: String(loader_data.amount),
-      date: String(loader_data.date.slice(0, 10)),
-      title: loader_data.title,
+      title: data.title,
+      amount: String(data.amount),
+      date: String(data.date).slice(0, 10),
     };
   }, [loader_data]);
 
@@ -51,7 +55,7 @@ export function ExpenseForm() {
       <p>
         <label htmlFor="title">Expense Title</label>
         <input
-          defaultValue={loader_data.title}
+          defaultValue={expense.title}
           type="text"
           id="title"
           name="title"
