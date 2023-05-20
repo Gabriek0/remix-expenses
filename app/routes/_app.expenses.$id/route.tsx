@@ -2,8 +2,10 @@
 import { Modal } from "~/components/Util";
 import { ExpenseForm } from "~/components/Expenses";
 
-import { LoaderArgs, json } from "@remix-run/node";
+import { ActionArgs, LoaderArgs, json, redirect } from "@remix-run/node";
 import { expensesRepository } from "~/features/expenses/expenses.server";
+import { Expense } from "~/models/Expense";
+import { validateExpenseInput } from "~/utils/validations/validation.server";
 
 /*
 export const loader = async ({ params }: LoaderArgs) => {
@@ -14,6 +16,39 @@ export const loader = async ({ params }: LoaderArgs) => {
   return json(expense);
 };
 */
+
+export const action = async ({ params, request }: ActionArgs) => {
+  const id = params.id as string;
+  const isPatch = request.method === "PATCH";
+
+  if (!isPatch) {
+    await expensesRepository.remove(id);
+  }
+
+  // i'm putting data as unknown first to the after transform in Expense model
+  const data = Object.fromEntries(
+    await request.formData()
+  ) as unknown as Expense;
+
+  const expense: Expense = {
+    ...data,
+    amount: Number(data.amount),
+    date: new Date(data.date),
+  };
+
+  try {
+    validateExpenseInput(expense);
+  } catch (error) {
+    console.log(error);
+
+    return error;
+  }
+
+  await expensesRepository.update(id, expense);
+
+  // if response was success return to the expenses list
+  return redirect("..");
+};
 
 export default function ExpensesDynamicPage() {
   return (

@@ -22,9 +22,6 @@ export function ExpenseForm() {
   const action_data = useActionData<Errors>();
 
   // Memo Vars
-  const isSubmitting = useMemo(() => state !== "idle", [state]);
-  const errors = useMemo(() => Object.values(action_data || []), [action_data]);
-
   const expense = useMemo(() => {
     const route_data = loader_data.find(
       (data) => data.id === "routes/_app.expenses"
@@ -47,11 +44,18 @@ export function ExpenseForm() {
     };
   }, [loader_data]);
 
+  const isSubmitting = useMemo(() => state !== "idle", [state]);
+  const errors = useMemo(() => Object.values(action_data || []), [action_data]);
+
   // Vars
   const today = new Date().toISOString().slice(0, 10); // yields something like 2023-09-10
 
   return (
-    <Form method="post" className="form" id="expense-form">
+    <Form
+      method={expense ? "patch" : "post"}
+      className="form"
+      id="expense-form"
+    >
       <p>
         <label htmlFor="title">Expense Title</label>
         <input
