@@ -30,6 +30,49 @@ class ExpensesRepository implements IExpensesRepository {
     }
   }
 
+  async remove(id: string): Promise<void> {
+    try {
+      await db.expense.delete({
+        where: {
+          id,
+        },
+      });
+    } catch (error) {
+      if (error instanceof PrismaClientKnownRequestError) {
+        const errorMessage = {
+          message: error.message,
+          code: error.code,
+        };
+
+        console.log(errorMessage);
+      }
+
+      throw error;
+    }
+  }
+
+  async update(id: string, expense: Expense): Promise<void> {
+    try {
+      await db.expense.update({
+        where: {
+          id,
+        },
+        data: expense,
+      });
+    } catch (error) {
+      if (error instanceof PrismaClientKnownRequestError) {
+        const errorMessage = {
+          message: error.message,
+          code: error.code,
+        };
+
+        console.log(errorMessage);
+      }
+
+      throw error;
+    }
+  }
+
   async getAll(): Promise<Expense[]> {
     try {
       const expenses = await db.expense.findMany({
@@ -61,27 +104,6 @@ class ExpensesRepository implements IExpensesRepository {
       });
 
       return expense;
-    } catch (error) {
-      if (error instanceof PrismaClientKnownRequestError) {
-        const errorMessage = {
-          message: error.message,
-          code: error.code,
-        };
-
-        console.log(errorMessage);
-      }
-
-      throw error;
-    }
-  }
-
-  async removeById(id: string): Promise<void> {
-    try {
-      await db.expense.delete({
-        where: {
-          id,
-        },
-      });
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
         const errorMessage = {
