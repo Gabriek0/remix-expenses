@@ -23,6 +23,8 @@ export const action = async ({ params, request }: ActionArgs) => {
 
   if (!isPatch) {
     await expensesRepository.remove(id);
+
+    return redirect("/expenses");
   }
 
   // i'm putting data as unknown first to the after transform in Expense model

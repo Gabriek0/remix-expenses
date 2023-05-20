@@ -1,4 +1,4 @@
-import { Link } from "@remix-run/react";
+import { Form, Link } from "@remix-run/react";
 import { Expense } from "~/models/Expense";
 
 interface Props {
@@ -8,9 +8,11 @@ interface Props {
 type ExpenseItem = Omit<Expense, "created_at">;
 
 export function ExpenseListItem({ expense_item }: Props) {
+  // open a modal when delete expense item
+  /*
   function deleteExpenseItemHandler() {
     // tbd
-  }
+  }*/
 
   return (
     <article className="expense-item">
@@ -19,8 +21,12 @@ export function ExpenseListItem({ expense_item }: Props) {
         <p className="expense-amount">${expense_item.amount.toFixed(2)}</p>
       </div>
       <menu className="expense-actions">
-        <button onClick={deleteExpenseItemHandler}>Delete</button>
-        <Link to={expense_item.id}>Edit</Link>
+        {/* onClick={deleteExpenseItemHandler} */}
+        <Form method="DELETE" action={`/expenses/${expense_item.id}`}>
+          <button>Delete</button>
+        </Form>
+
+        <Link to={expense_item.id as string}>Edit</Link>
       </menu>
     </article>
   );
