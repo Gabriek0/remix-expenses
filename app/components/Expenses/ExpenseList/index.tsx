@@ -15,6 +15,7 @@ export function ExpensesList({ expenses }: Props) {
               id: expense.id,
               amount: expense.amount,
               title: expense.title,
+              date: expense.date,
             }}
           />
         </li>
