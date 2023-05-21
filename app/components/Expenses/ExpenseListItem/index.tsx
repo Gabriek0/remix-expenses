@@ -1,4 +1,4 @@
-import { Form, Link } from "@remix-run/react";
+import { Form, Link, useFetcher } from "@remix-run/react";
 import { Expense } from "~/models/Expense";
 
 interface Props {
@@ -8,11 +8,31 @@ interface Props {
 type ExpenseItem = Omit<Expense, "created_at">;
 
 export function ExpenseListItem({ expense_item }: Props) {
+  const fetcher = useFetcher();
+
   // open a modal when delete expense item
-  /*
+
   function deleteExpenseItemHandler() {
-    // tbd
-  }*/
+    const isConfirmed = confirm(
+      "Are you sure you want to delete this Expense?"
+    );
+
+    if (!isConfirmed) return;
+
+    // the first arg is data
+    fetcher.submit(null, {
+      method: "delete",
+      action: `/expenses/${expense_item.id}`,
+    });
+  }
+
+  if (fetcher.state === "submitting") {
+    return (
+      <article className="expense-item locked">
+        <p>Deleting...</p>
+      </article>
+    );
+  }
 
   return (
     <article className="expense-item">
@@ -21,11 +41,7 @@ export function ExpenseListItem({ expense_item }: Props) {
         <p className="expense-amount">${expense_item.amount.toFixed(2)}</p>
       </div>
       <menu className="expense-actions">
-        {/* onClick={deleteExpenseItemHandler} */}
-        <Form method="DELETE" action={`/expenses/${expense_item.id}`}>
-          <button>Delete</button>
-        </Form>
-
+        <button onClick={deleteExpenseItemHandler}>Delete</button>
         <Link to={expense_item.id as string}>Edit</Link>
       </menu>
     </article>
