@@ -3,14 +3,25 @@ import { useMemo } from "react";
 // React Icons
 import { FaLock, FaUserPlus } from "react-icons/fa";
 
-import { Form, Link, useSearchParams } from "@remix-run/react";
+import { Form, Link, useNavigation, useSearchParams } from "@remix-run/react";
 
 export default function AuthForm() {
+  const navigation = useNavigation();
   const [searchParams] = useSearchParams();
 
   const authMode = useMemo(
     () => searchParams.get("mode") || "login",
     [searchParams]
+  );
+
+  const isSubmitting = useMemo(
+    () => navigation.state !== "idle",
+    [navigation.state]
+  );
+
+  const button_caption = useMemo(
+    () => (authMode === "login" ? "Login" : "Create User"),
+    [authMode]
   );
 
   return (
@@ -27,7 +38,9 @@ export default function AuthForm() {
         <input type="password" id="password" name="password" minLength={7} />
       </p>
       <div className="form-actions">
-        <button>{authMode === "login" ? "Login" : "Create User"}</button>
+        <button disabled={isSubmitting}>
+          {isSubmitting ? "Authenticating..." : button_caption}
+        </button>
         <Link to={`${authMode === "login" ? "?mode=signup" : "?mode=login"}`}>
           {authMode === "login"
             ? "Log in with existing user"
