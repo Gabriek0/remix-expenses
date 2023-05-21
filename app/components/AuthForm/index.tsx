@@ -3,7 +3,7 @@ import { useMemo } from "react";
 // React Icons
 import { FaLock, FaUserPlus } from "react-icons/fa";
 
-import { Link, useSearchParams } from "@remix-run/react";
+import { Form, Link, useSearchParams } from "@remix-run/react";
 
 export default function AuthForm() {
   const [searchParams] = useSearchParams();
@@ -14,7 +14,7 @@ export default function AuthForm() {
   );
 
   return (
-    <form method="post" className="form" id="auth-form">
+    <Form method="post" className="form" id="auth-form">
       <div className="icon-img">
         {authMode === "login" ? <FaLock /> : <FaUserPlus />}
       </div>
@@ -34,6 +34,6 @@ export default function AuthForm() {
             : "Create a new user"}
         </Link>
       </div>
-    </form>
+    </Form>
   );
 }
