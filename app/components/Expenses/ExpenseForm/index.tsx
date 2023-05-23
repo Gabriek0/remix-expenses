@@ -29,13 +29,7 @@ export function ExpenseForm() {
 
     const data = route_data.find((d) => d.id === id) ?? null;
 
-    if (!data) {
-      return {
-        amount: "",
-        date: "",
-        title: "",
-      };
-    }
+    if (!data) return null;
 
     return {
       title: data.title,
@@ -50,6 +44,10 @@ export function ExpenseForm() {
   // Vars
   const today = new Date().toISOString().slice(0, 10); // yields something like 2023-09-10
 
+  if (id && !expense) {
+    return <p>Invalid expense id.</p>;
+  }
+
   return (
     <Form
       method={expense ? "patch" : "post"}
@@ -59,7 +57,7 @@ export function ExpenseForm() {
       <p>
         <label htmlFor="title">Expense Title</label>
         <input
-          defaultValue={expense.title}
+          defaultValue={expense?.title}
           type="text"
           id="title"
           name="title"
@@ -72,7 +70,7 @@ export function ExpenseForm() {
         <p>
           <label htmlFor="amount">Amount</label>
           <input
-            defaultValue={expense.amount}
+            defaultValue={expense?.amount}
             type="number"
             id="amount"
             name="amount"
@@ -84,7 +82,7 @@ export function ExpenseForm() {
         <p>
           <label htmlFor="date">Date</label>
           <input
-            defaultValue={expense.date}
+            defaultValue={expense?.date}
             type="date"
             id="date"
             name="date"
