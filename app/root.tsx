@@ -15,7 +15,7 @@ import { ReactNode, useMemo } from "react";
 
 // Styles
 import styles from "~/styles/root.css";
-import { Error } from "./components/Util";
+import { Error as ErrorComponent } from "./components/Util";
 
 interface Props {
   title: string;
@@ -85,6 +85,15 @@ export function ErrorBoundary() {
       return error;
     }
 
+    if (error instanceof Error) {
+      return {
+        statusText: "An error occurred",
+        data: {
+          message: error.message,
+        },
+      };
+    }
+
     return {
       statusText: "Error unknown",
       data: {
@@ -96,7 +105,7 @@ export function ErrorBoundary() {
   return (
     <Document title={route_error.statusText}>
       <main>
-        <Error title={route_error.statusText}>
+        <ErrorComponent title={route_error.statusText}>
           <p>
             {route_error.data?.message ||
               "Something went wrong. Please try again later."}
@@ -104,7 +113,7 @@ export function ErrorBoundary() {
           <p>
             Back to <Link to="/">safety</Link>.
           </p>
-        </Error>
+        </ErrorComponent>
       </main>
     </Document>
   );

@@ -26,7 +26,7 @@ class ExpensesRepository implements IExpensesRepository {
         console.log(errorMessage);
       }
 
-      throw error;
+      throw new Error("Failed to add expense.");
     }
   }
 
@@ -47,7 +47,7 @@ class ExpensesRepository implements IExpensesRepository {
         console.log(errorMessage);
       }
 
-      throw error;
+      throw new Error("Failed to remove expense.");
     }
   }
 
@@ -69,7 +69,7 @@ class ExpensesRepository implements IExpensesRepository {
         console.log(errorMessage);
       }
 
-      throw error;
+      throw new Error("Failed to update expense.");
     }
   }
 
@@ -91,7 +91,7 @@ class ExpensesRepository implements IExpensesRepository {
 
         console.log(errorMessage);
       }
-      throw error;
+      throw new Error("Faile to get all expenses.");
     }
   }
 
@@ -114,7 +114,7 @@ class ExpensesRepository implements IExpensesRepository {
         console.log(errorMessage);
       }
 
-      throw error;
+      throw new Error(`Failed to get expense with id: ${id}.`);
     }
   }
 }
