@@ -30,6 +30,11 @@ export const loader: LoaderFunction = async () => {
 export default function ExpensesPage() {
   const expenses = useLoaderData<typeof loader>() as Expense[];
 
+  const hasExpenses = useMemo(
+    () => expenses && expenses.length > 0,
+    [expenses]
+  );
+
   return (
     <>
       <Outlet />
@@ -46,7 +51,16 @@ export default function ExpensesPage() {
             <span>Load Raw Data</span>
           </a>
         </section>
-        <ExpensesList expenses={expenses} />
+        {hasExpenses ? (
+          <ExpensesList expenses={expenses} />
+        ) : (
+          <section id="no-expenses">
+            <h1>No expenses found</h1>
+            <p>
+              Start <Link to="add">adding some</Link> today.
+            </p>
+          </section>
+        )}
       </main>
     </>
   );
