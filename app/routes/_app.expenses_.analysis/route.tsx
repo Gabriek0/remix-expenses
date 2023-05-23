@@ -38,19 +38,24 @@ export function ErrorBoundary() {
 
   if (isRouteErrorResponse(error)) {
     return (
+      <main>
+        <ErrorComponent>
+          <p>{error.data?.message}</p>
+          <p>
+            I want to add expenses <Link to="/expenses/add">Add</Link>.
+          </p>
+        </ErrorComponent>
+      </main>
+    );
+  } else {
+    <main>
       <ErrorComponent>
-        <p>{error.data?.message}</p>
+        <p>No Expense was found.</p>
         <p>
           I want to add expenses <Link to="/expenses/add">Add</Link>.
         </p>
       </ErrorComponent>
-    );
-  } else {
-    <ErrorComponent>
-      <p>No Expense was found.</p>
-      <p>
-        I want to add expenses <Link to="/expenses/add">Add</Link>.
-      </p>
-    </ErrorComponent>;
+      ;
+    </main>;
   }
 }
