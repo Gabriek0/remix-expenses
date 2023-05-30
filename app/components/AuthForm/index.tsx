@@ -29,21 +29,24 @@ export default function AuthForm() {
       <div className="icon-img">
         {authMode === "login" ? <FaLock /> : <FaUserPlus />}
       </div>
+
       <p>
         <label htmlFor="email">Email Address</label>
         <input type="email" id="email" name="email" required />
       </p>
+
       <p>
         <label htmlFor="password">Password</label>
         <input type="password" id="password" name="password" minLength={7} />
       </p>
+
       <div className="form-actions">
         <button disabled={isSubmitting}>
           {isSubmitting ? "Authenticating..." : button_caption}
         </button>
         <Link to={`${authMode === "login" ? "?mode=signup" : "?mode=login"}`}>
           {authMode === "login"
-            ? "Log in with existing user"
+            ? "Login with existing user"
             : "Create a new user"}
         </Link>
       </div>
