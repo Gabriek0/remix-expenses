@@ -6,6 +6,11 @@ export type Errors = {
   date?: string;
 };
 
+export type Credentials = {
+  email: string;
+  password: string;
+};
+
 export function validateExpenseInput(expense: Expense): void {
   let errors: Errors = {};
 
@@ -27,6 +32,26 @@ export function validateExpenseInput(expense: Expense): void {
   }
 }
 
+export function validateCredentials(credentials: Credentials) {
+  let validationErrors: Credentials = {
+    email: "",
+    password: "",
+  };
+
+  if (!isValidEmail(credentials.email)) {
+    validationErrors.email = "Invalid email address.";
+  }
+
+  if (!isValidPassword(credentials.password)) {
+    validationErrors.password =
+      "Invalid password. Must be at least 7 characters long.";
+  }
+
+  if (Object.keys(validationErrors).length > 0) {
+    throw validationErrors;
+  }
+}
+
 const isValidTitle = (title: string): boolean =>
   !!(title && title.trim().length > 0 && title.trim().length <= 30);
 
@@ -38,3 +63,6 @@ const isValidAmount = (value: string) => {
 
   return !isNaN(amount) && amount > 0;
 };
+
+const isValidEmail = (value: string) => value && value.includes("@");
+const isValidPassword = (value: string) => value && value.trim().length >= 7;

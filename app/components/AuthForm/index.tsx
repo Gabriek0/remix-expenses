@@ -3,11 +3,21 @@ import { useMemo } from "react";
 // React Icons
 import { FaLock, FaUserPlus } from "react-icons/fa";
 
-import { Form, Link, useNavigation, useSearchParams } from "@remix-run/react";
+import {
+  Form,
+  Link,
+  useActionData,
+  useNavigation,
+  useSearchParams,
+} from "@remix-run/react";
+
+import { action } from "~/routes/_marketing.auth/route";
 
 export default function AuthForm() {
   const navigation = useNavigation();
   const [searchParams] = useSearchParams();
+
+  const action_data = useActionData<typeof action>();
 
   const authMode = useMemo(
     () => searchParams.get("mode") || "login",
@@ -24,6 +34,8 @@ export default function AuthForm() {
     [authMode]
   );
 
+  const errors = useMemo(() => Object.values(action_data || []), [action_data]);
+
   return (
     <Form method="post" className="form" id="auth-form">
       <div className="icon-img">
@@ -39,6 +51,14 @@ export default function AuthForm() {
         <label htmlFor="password">Password</label>
         <input type="password" id="password" name="password" minLength={7} />
       </p>
+
+      {errors.length > 0 && (
+        <ul>
+          {errors.map((err) => (
+            <li key={err}>{err}</li>
+          ))}
+        </ul>
+      )}
 
       <div className="form-actions">
         <button disabled={isSubmitting}>
