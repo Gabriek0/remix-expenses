@@ -1,4 +1,5 @@
 import { Expense } from "~/models/Expense";
+import { db } from "../db.server";
 
 export type Errors = {
   title?: string;
@@ -10,6 +11,24 @@ export type Credentials = {
   email: string;
   password: string;
 };
+
+export async function validateEmailExistence(email: string) {
+  const alreadyExist = await db.user.findFirst({
+    where: {
+      email,
+    },
+  });
+
+  if (alreadyExist) {
+    const error = new Error(
+      "A user with the provided email address exists already."
+    );
+
+    error.stack = "EMAIL_ALREADY_EXISTS";
+
+    throw error;
+  }
+}
 
 export function validateExpenseInput(expense: Expense): void {
   let errors: Errors = {};

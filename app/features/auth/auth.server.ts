@@ -1,31 +1,45 @@
 import { db } from "~/utils/db.server";
-import { Credentials } from "~/utils/validations/validation.server";
 
-import { hash } from "bcrypt";
+// Validations
+import {
+  Credentials,
+  validateEmailExistence,
+} from "~/utils/validations/validation.server";
+
+import { compare, hash } from "bcrypt";
 
 export async function signup({ email, password }: Credentials) {
-  const existingUser = await db.user.findFirst({
-    where: {
-      email,
-    },
-  });
+  await validateEmailExistence(email);
 
   const password_hashed = await hash(password, 12);
-
-  if (existingUser) {
-    const error = new Error(
-      "A user with the provided email address exists already."
-    );
-
-    error.stack = "EMAIL_ALREADY_EXISTS";
-
-    throw error;
-  }
-
   await db.user.create({
     data: {
       email,
       password: password_hashed,
     },
   });
+}
+
+export async function login({ email, password }: Credentials) {
+  const credentials = await db.user.findFirst({
+    where: {
+      email,
+    },
+  });
+
+  if (!credentials) {
+    const error = new Error("User does not exist.");
+    error.stack = "USER_NOT_FOUND";
+
+    throw error;
+  }
+
+  const isPasswordValid = compare(password, credentials.password);
+
+  if (!isPasswordValid) {
+    const error = new Error("Password is invalid.");
+    error.stack = "PASSWORD_INVALID";
+
+    throw error;
+  }
 }
