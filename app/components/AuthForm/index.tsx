@@ -61,7 +61,7 @@ export default function AuthForm() {
       )}
 
       <div className="form-actions">
-        <button disabled={isSubmitting}>
+        <button type="submit" disabled={isSubmitting}>
           {isSubmitting ? "Authenticating..." : button_caption}
         </button>
         <Link to={`${authMode === "login" ? "?mode=signup" : "?mode=login"}`}>

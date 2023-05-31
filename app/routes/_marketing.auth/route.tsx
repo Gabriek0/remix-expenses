@@ -1,7 +1,8 @@
-import { ActionArgs, LinksFunction } from "@remix-run/node";
+import { ActionArgs, LinksFunction, redirect } from "@remix-run/node";
 
 // Components
 import AuthForm from "~/components/AuthForm";
+import { signup } from "~/features/auth/auth.server";
 
 // Styles
 import styles from "~/styles/auth.css";
@@ -35,10 +36,23 @@ export async function action({ request }: ActionArgs) {
   try {
     validateCredentials(credentials);
   } catch (err) {
+    console.log(err);
+
     return err;
   }
 
   if (mode === "signup") {
+    try {
+      await signup(credentials);
+      return redirect("/expenses");
+    } catch (err) {
+      if (err instanceof Error) {
+        if (err.stack === "EMAIL_ALREADY_EXISTS")
+          return { credentials: err.message };
+      }
+
+      return null;
+    }
   }
 
   if (mode === "login") {

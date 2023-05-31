@@ -33,10 +33,7 @@ export function validateExpenseInput(expense: Expense): void {
 }
 
 export function validateCredentials(credentials: Credentials) {
-  let validationErrors: Credentials = {
-    email: "",
-    password: "",
-  };
+  let validationErrors: Partial<Credentials> = {};
 
   if (!isValidEmail(credentials.email)) {
     validationErrors.email = "Invalid email address.";
