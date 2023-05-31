@@ -7,6 +7,21 @@ import {
 } from "~/utils/validations/validation.server";
 
 import { compare, hash } from "bcrypt";
+import { createCookieSessionStorage } from "@remix-run/node";
+
+const SESSION_SECRET = process.env.SESSION_SECRET as string;
+
+// generate secure cookie
+const sessionStorage = createCookieSessionStorage({
+  cookie: {
+    name: "_session",
+    secure: process.env.NODE_ENV === "production",
+    secrets: [SESSION_SECRET],
+    sameSite: "lax",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+    httpOnly: true, // to client side access cookie
+  },
+});
 
 export async function signup({ email, password }: Credentials) {
   await validateEmailExistence(email);
