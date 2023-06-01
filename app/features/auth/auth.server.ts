@@ -7,7 +7,7 @@ import {
 } from "~/utils/validations/validation.server";
 
 import { compare, hash } from "bcrypt";
-import { createCookieSessionStorage, redirect } from "@remix-run/node";
+import { Request, createCookieSessionStorage, redirect } from "@remix-run/node";
 
 const SESSION_SECRET = process.env.SESSION_SECRET as string;
 
@@ -34,6 +34,12 @@ async function createUserSession(userId: string, path: string) {
       "Set-Cookie": await sessionStorage.commitSession(session),
     },
   });
+}
+
+export async function getUserFromSession(request: Request) {
+  const userId = request.headers.get("Cookie");
+
+  return userId ? userId : null;
 }
 
 export async function signup({ email, password }: Credentials) {

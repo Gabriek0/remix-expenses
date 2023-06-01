@@ -66,8 +66,8 @@ export default function AuthForm() {
         </button>
         <Link to={`${authMode === "login" ? "?mode=signup" : "?mode=login"}`}>
           {authMode === "login"
-            ? "Login with existing user"
-            : "Create a new user"}
+            ? "Create a new user"
+            : "Login with existing user"}
         </Link>
       </div>
     </Form>
