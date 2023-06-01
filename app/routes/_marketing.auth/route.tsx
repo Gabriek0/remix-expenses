@@ -1,8 +1,9 @@
 import { ActionArgs, LinksFunction, redirect } from "@remix-run/node";
+import { FaBreadSlice } from "react-icons/fa";
 
 // Components
 import AuthForm from "~/components/AuthForm";
-import { signup } from "~/features/auth/auth.server";
+import { login, signup } from "~/features/auth/auth.server";
 
 // Styles
 import styles from "~/styles/auth.css";
@@ -41,22 +42,29 @@ export async function action({ request }: ActionArgs) {
     return err;
   }
 
-  if (mode === "signup") {
-    try {
-      await signup(credentials);
-      return redirect("/expenses");
-    } catch (err) {
-      if (err instanceof Error) {
-        if (err.stack === "EMAIL_ALREADY_EXISTS")
+  try {
+    if (mode === "signup") {
+      return await signup(credentials);
+    }
+    if (mode === "login") {
+      return await login(credentials);
+    }
+  } catch (err) {
+    if (err instanceof Error) {
+      switch (err.stack) {
+        case "EMAIL_ALREADY_EXISTS":
           return { credentials: err.message };
+        case "USER_NOT_FOUND":
+          return { credentials: err.message };
+        case "PASSWORD_INVALID":
+          return { credentials: err.message };
+        default:
+          break;
       }
-
-      return null;
     }
   }
 
-  if (mode === "login") {
-  }
+  return null;
 }
 
 export default function AuthPage() {

@@ -7,14 +7,14 @@ import {
 } from "~/utils/validations/validation.server";
 
 import { compare, hash } from "bcrypt";
-import { createCookieSessionStorage } from "@remix-run/node";
+import { createCookieSessionStorage, redirect } from "@remix-run/node";
 
 const SESSION_SECRET = process.env.SESSION_SECRET as string;
 
 // generate secure cookie
 const sessionStorage = createCookieSessionStorage({
   cookie: {
-    name: "_session",
+    // name: "_session",
     secure: process.env.NODE_ENV === "production",
     secrets: [SESSION_SECRET],
     sameSite: "lax",
@@ -23,16 +23,32 @@ const sessionStorage = createCookieSessionStorage({
   },
 });
 
+async function createUserSession(userId: string, path: string) {
+  const session = await sessionStorage.getSession();
+
+  session.set("userId", userId);
+
+  // let's redirect user to expenses and send cookie data in Set-Cookie
+  return redirect(path, {
+    headers: {
+      "Set-Cookie": await sessionStorage.commitSession(session),
+    },
+  });
+}
+
 export async function signup({ email, password }: Credentials) {
   await validateEmailExistence(email);
 
   const password_hashed = await hash(password, 12);
-  await db.user.create({
+
+  const credentials = await db.user.create({
     data: {
       email,
       password: password_hashed,
     },
   });
+
+  return createUserSession(credentials.id, "/expenses");
 }
 
 export async function login({ email, password }: Credentials) {
@@ -42,6 +58,8 @@ export async function login({ email, password }: Credentials) {
     },
   });
 
+  console.log(credentials);
+
   if (!credentials) {
     const error = new Error("User does not exist.");
     error.stack = "USER_NOT_FOUND";
@@ -49,7 +67,7 @@ export async function login({ email, password }: Credentials) {
     throw error;
   }
 
-  const isPasswordValid = compare(password, credentials.password);
+  const isPasswordValid = await compare(password, credentials.password);
 
   if (!isPasswordValid) {
     const error = new Error("Password is invalid.");
@@ -57,4 +75,6 @@ export async function login({ email, password }: Credentials) {
 
     throw error;
   }
+
+  return await createUserSession(credentials.id, "/expenses");
 }
