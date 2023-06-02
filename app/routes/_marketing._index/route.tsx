@@ -1,4 +1,4 @@
-import { LoaderArgs, LoaderFunction, Request } from "@remix-run/node";
+import { HeadersFunction } from "@remix-run/node";
 import { Link, V2_MetaFunction } from "@remix-run/react";
 
 // Icons
@@ -11,6 +11,10 @@ export const meta: V2_MetaFunction = () => {
     },
   ];
 };
+
+export const headers: HeadersFunction = ({ parentHeaders }) => ({
+  "Cache-Control": parentHeaders.get("Cache-Control") as string,
+});
 
 export default function Index() {
   return (

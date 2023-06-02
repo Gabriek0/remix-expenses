@@ -1,5 +1,6 @@
 import {
   ActionArgs,
+  HeadersFunction,
   LinksFunction,
   V2_MetaFunction,
   redirect,
@@ -35,6 +36,10 @@ export const meta: V2_MetaFunction = () => {
     },
   ];
 };
+
+export const headers: HeadersFunction = ({ parentHeaders }) => ({
+  "Cache-Control": parentHeaders.get("Cache-Control") as string,
+});
 
 export async function action({ request }: ActionArgs) {
   // const credentials = Object.fromEntries(await request.formData());

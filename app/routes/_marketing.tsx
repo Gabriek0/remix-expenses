@@ -1,4 +1,5 @@
 import {
+  HeadersFunction,
   LinksFunction,
   LoaderArgs,
   LoaderFunction,
@@ -26,6 +27,10 @@ export const links: LinksFunction = () => {
 export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
   return await getUserFromSession(request as Request);
 };
+
+export const headers: HeadersFunction = () => ({
+  "Cache-Control": "max-age=3600", // 60 minutes
+});
 
 export default function MarketingParentPage() {
   return (

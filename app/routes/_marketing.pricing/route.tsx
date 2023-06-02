@@ -1,4 +1,5 @@
 // Components
+import { HeadersFunction } from "@remix-run/node";
 import { V2_MetaFunction } from "@remix-run/react";
 import { PricingPlan } from "~/components/Marketing";
 import { pricing_data_mock } from "~/models/Plan";
@@ -10,6 +11,10 @@ export const meta: V2_MetaFunction = () => {
     },
   ];
 };
+
+export const headers: HeadersFunction = ({ parentHeaders }) => ({
+  "Cache-Control": parentHeaders.get("Cache-Control") as string,
+});
 
 export default function PricingPage() {
   return (
