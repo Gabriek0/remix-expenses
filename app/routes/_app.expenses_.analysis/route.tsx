@@ -1,5 +1,5 @@
 // Components
-import { json } from "@remix-run/node";
+import { LoaderArgs, Request, json } from "@remix-run/node";
 import {
   Link,
   isRouteErrorResponse,
@@ -8,13 +8,15 @@ import {
 } from "@remix-run/react";
 import { Chart, ExpenseStatistics } from "~/components/Expenses";
 import { Error as ErrorComponent } from "~/components/Util";
+import { requireUserSession } from "~/features/auth/auth.server";
 import { expensesRepository } from "~/features/expenses/expenses.server";
 
 // DATA MOCK
 import { Expense } from "~/models/Expense";
 
-export const loader = async () => {
-  const expenses = await expensesRepository.getAll();
+export const loader = async ({ request }: LoaderArgs) => {
+  const userId = await requireUserSession(request as Request);
+  const expenses = await expensesRepository.getAll(userId);
 
   if (!expenses.length)
     throw json({ error: 404, message: "No expense was found." });

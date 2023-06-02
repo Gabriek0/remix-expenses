@@ -36,6 +36,16 @@ async function createUserSession(userId: string, path: string) {
   });
 }
 
+export async function requireUserSession(request: Request) {
+  const userId = await getUserFromSession(request);
+
+  if (!userId) {
+    throw redirect(`/auth?mode='login'`);
+  }
+
+  return userId;
+}
+
 export async function destroyUserSession(request: Request) {
   const session = await sessionStorage.getSession(
     request.headers.get("Cookie")

@@ -2,10 +2,11 @@
 import { Modal } from "~/components/Util";
 import { ExpenseForm } from "~/components/Expenses";
 
-import { ActionArgs, LoaderArgs, json, redirect } from "@remix-run/node";
+import { ActionArgs, LoaderArgs, Request, redirect } from "@remix-run/node";
 import { expensesRepository } from "~/features/expenses/expenses.server";
 import { Expense } from "~/models/Expense";
 import { validateExpenseInput } from "~/utils/validations/validation.server";
+import { requireUserSession } from "~/features/auth/auth.server";
 
 /*
 export const loader = async ({ params }: LoaderArgs) => {
@@ -16,6 +17,10 @@ export const loader = async ({ params }: LoaderArgs) => {
   return json(expense);
 };
 */
+
+export const loader = async ({ request }: LoaderArgs) => {
+  return await requireUserSession(request as Request);
+};
 
 export const action = async ({ params, request }: ActionArgs) => {
   const id = params.id as string;

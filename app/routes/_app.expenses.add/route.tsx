@@ -1,14 +1,19 @@
 import { Modal } from "~/components/Util";
 import { ExpenseForm } from "~/components/Expenses";
 
-import { ActionArgs } from "@remix-run/node";
+import { ActionArgs, LoaderArgs, Request } from "@remix-run/node";
 
 import { Expense as ExpenseType } from "~/models/Expense";
 import { redirect } from "react-router";
 import { expensesRepository } from "~/features/expenses/expenses.server";
 import { validateExpenseInput } from "~/utils/validations/validation.server";
+import { requireUserSession } from "~/features/auth/auth.server";
 
 type Expense = Omit<ExpenseType, "id" | "created_at">;
+
+export async function loader({ request }: LoaderArgs) {
+  return requireUserSession(request as Request);
+}
 
 export async function action({ request }: ActionArgs) {
   const form = Object.fromEntries(await request.formData()) as unknown;

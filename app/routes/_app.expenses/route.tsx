@@ -1,13 +1,19 @@
 import { Expense } from "@prisma/client";
-import { LinksFunction, LoaderFunction, json } from "@remix-run/node";
+import {
+  LinksFunction,
+  LoaderArgs,
+  LoaderFunction,
+  Request,
+  json,
+} from "@remix-run/node";
 import { Link, Outlet, useLoaderData } from "@remix-run/react";
 import { useMemo } from "react";
 import { FaDownload, FaPlus } from "react-icons/fa";
 
 // Components
 import { ExpensesList } from "~/components/Expenses";
+import { requireUserSession } from "~/features/auth/auth.server";
 import { expensesRepository } from "~/features/expenses/expenses.server";
-import { expenses_data_mock } from "~/models/Expense";
 
 // Styles
 import styles from "~/styles/expenses.css";
@@ -21,8 +27,10 @@ export const links: LinksFunction = () => {
   ];
 };
 
-export const loader: LoaderFunction = async () => {
-  const expenses = await expensesRepository.getAll();
+export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
+  const userId = await requireUserSession(request as Request);
+
+  const expenses = await expensesRepository.getAll(userId);
 
   return json(expenses);
 };

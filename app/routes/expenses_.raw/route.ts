@@ -1,5 +1,9 @@
-import { expenses_data_mock } from "~/models/Expense";
+import { LoaderArgs, Request } from "@remix-run/node";
+import { requireUserSession } from "~/features/auth/auth.server";
+import { expensesRepository } from "~/features/expenses/expenses.server";
 
-export function loader() {
-  return expenses_data_mock;
+export async function loader({ request }: LoaderArgs) {
+  const userId = await requireUserSession(request as Request);
+
+  return await expensesRepository.getAll(userId);
 }

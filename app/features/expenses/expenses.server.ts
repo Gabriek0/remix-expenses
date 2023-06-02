@@ -73,9 +73,12 @@ class ExpensesRepository implements IExpensesRepository {
     }
   }
 
-  async getAll(): Promise<Expense[]> {
+  async getAll(userId: string): Promise<Expense[]> {
     try {
       const expenses = await db.expense.findMany({
+        where: {
+          userId,
+        },
         orderBy: {
           date: "desc",
         },
