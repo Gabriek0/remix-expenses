@@ -1,7 +1,12 @@
 import { Modal } from "~/components/Util";
 import { ExpenseForm } from "~/components/Expenses";
 
-import { ActionArgs, LoaderArgs, Request } from "@remix-run/node";
+import {
+  ActionArgs,
+  LoaderArgs,
+  Request,
+  V2_MetaFunction,
+} from "@remix-run/node";
 
 import { Expense as ExpenseType } from "~/models/Expense";
 import { redirect } from "react-router";
@@ -36,6 +41,14 @@ export async function action({ request }: ActionArgs) {
 
   return redirect("..");
 }
+
+export const meta: V2_MetaFunction = () => {
+  return [
+    {
+      title: "Add Expense | RemixExpenses",
+    },
+  ];
+};
 
 export default function ExpensesAddPage() {
   return (

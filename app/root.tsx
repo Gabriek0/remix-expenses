@@ -18,7 +18,6 @@ import styles from "~/styles/root.css";
 import { Error as ErrorComponent } from "./components/Util";
 
 interface Props {
-  title: string;
   children: ReactNode;
 }
 
@@ -44,18 +43,25 @@ export const links: LinksFunction = () => {
 export const meta: V2_MetaFunction = () => {
   return [
     {
-      title: "RemixExpenses",
+      title: "Home | RemixExpenses",
+    },
+    {
+      property: "og:title",
+      content: "RemixExpenses",
+    },
+    {
+      name: "description",
+      content: "RemixExpenses is a application to store your expenses.",
     },
   ];
 };
 
-function Document({ title, children }: Props) {
+function Document({ children }: Props) {
   return (
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <title>{title}</title>
         <Meta />
         <Links />
       </head>
@@ -71,7 +77,7 @@ function Document({ title, children }: Props) {
 
 export default function App() {
   return (
-    <Document title="">
+    <Document>
       <Outlet />
     </Document>
   );
@@ -103,7 +109,7 @@ export function ErrorBoundary() {
   }, [error]);
 
   return (
-    <Document title={route_error.statusText}>
+    <Document>
       <main>
         <ErrorComponent title={route_error.statusText}>
           <p>

@@ -6,7 +6,7 @@ import {
   Request,
   json,
 } from "@remix-run/node";
-import { Link, Outlet, useLoaderData } from "@remix-run/react";
+import { Link, Outlet, V2_MetaFunction, useLoaderData } from "@remix-run/react";
 import { useMemo } from "react";
 import { FaDownload, FaPlus } from "react-icons/fa";
 
@@ -33,6 +33,14 @@ export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
   const expenses = await expensesRepository.getAll(userId);
 
   return json(expenses);
+};
+
+export const meta: V2_MetaFunction = () => {
+  return [
+    {
+      title: "Expenses | RemixExpenses",
+    },
+  ];
 };
 
 export default function ExpensesPage() {

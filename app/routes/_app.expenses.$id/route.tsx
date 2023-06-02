@@ -7,6 +7,7 @@ import { expensesRepository } from "~/features/expenses/expenses.server";
 import { Expense } from "~/models/Expense";
 import { validateExpenseInput } from "~/utils/validations/validation.server";
 import { requireUserSession } from "~/features/auth/auth.server";
+import { V2_MetaFunction } from "@remix-run/react";
 
 /*
 export const loader = async ({ params }: LoaderArgs) => {
@@ -55,6 +56,14 @@ export const action = async ({ params, request }: ActionArgs) => {
 
   // if response was success return to the expenses list
   return redirect("..");
+};
+
+export const meta: V2_MetaFunction = () => {
+  return [
+    {
+      title: "Add Expense | RemixExpenses",
+    },
+  ];
 };
 
 export default function ExpensesDynamicPage() {

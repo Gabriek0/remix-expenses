@@ -1,6 +1,15 @@
 // Components
+import { V2_MetaFunction } from "@remix-run/react";
 import { PricingPlan } from "~/components/Marketing";
 import { pricing_data_mock } from "~/models/Plan";
+
+export const meta: V2_MetaFunction = () => {
+  return [
+    {
+      title: "Pricing | RemixExpenses",
+    },
+  ];
+};
 
 export default function PricingPage() {
   return (

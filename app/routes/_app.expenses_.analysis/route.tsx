@@ -2,6 +2,7 @@
 import { LoaderArgs, Request, json } from "@remix-run/node";
 import {
   Link,
+  V2_MetaFunction,
   isRouteErrorResponse,
   useLoaderData,
   useRouteError,
@@ -22,6 +23,14 @@ export const loader = async ({ request }: LoaderArgs) => {
     throw json({ error: 404, message: "No expense was found." });
 
   return expenses;
+};
+
+export const meta: V2_MetaFunction = () => {
+  return [
+    {
+      title: "Analysis | RemixExpenses",
+    },
+  ];
 };
 
 export default function ExpensesAnalysisPage() {

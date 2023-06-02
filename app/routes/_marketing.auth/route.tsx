@@ -1,4 +1,9 @@
-import { ActionArgs, LinksFunction, redirect } from "@remix-run/node";
+import {
+  ActionArgs,
+  LinksFunction,
+  V2_MetaFunction,
+  redirect,
+} from "@remix-run/node";
 import { FaBreadSlice } from "react-icons/fa";
 
 // Components
@@ -19,6 +24,14 @@ export const links: LinksFunction = () => {
     {
       rel: "stylesheet",
       href: styles,
+    },
+  ];
+};
+
+export const meta: V2_MetaFunction = () => {
+  return [
+    {
+      title: "Auth | RemixExpenses",
     },
   ];
 };

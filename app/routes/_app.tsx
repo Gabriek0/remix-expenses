@@ -1,5 +1,5 @@
-import { LinksFunction } from "@remix-run/node";
-import { Outlet } from "@remix-run/react";
+import { LinksFunction, MetaFunction } from "@remix-run/node";
+import { Outlet, V2_MetaFunction } from "@remix-run/react";
 import { ExpensesHeader } from "~/components/Expenses";
 
 // Styles
