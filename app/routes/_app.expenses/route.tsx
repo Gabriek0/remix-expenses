@@ -1,5 +1,6 @@
 import { Expense } from "@prisma/client";
 import {
+  HeadersFunction,
   LinksFunction,
   LoaderArgs,
   LoaderFunction,
@@ -32,8 +33,16 @@ export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
 
   const expenses = await expensesRepository.getAll(userId);
 
-  return json(expenses);
+  return json(expenses, {
+    headers: {
+      "Cache-Control": "max-age=3",
+    },
+  });
 };
+
+export const headers: HeadersFunction = ({ loaderHeaders }) => ({
+  "Cache-Control": loaderHeaders.get("Cache-Control") as string,
+});
 
 export const meta: V2_MetaFunction = () => {
   return [

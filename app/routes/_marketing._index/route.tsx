@@ -60,3 +60,7 @@ export default function Index() {
     </main>
   );
 }
+
+export const handle = {
+  disableJS: true,
+};

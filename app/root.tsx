@@ -9,6 +9,7 @@ import {
   Scripts,
   ScrollRestoration,
   isRouteErrorResponse,
+  useMatches,
   useRouteError,
 } from "@remix-run/react";
 import { ReactNode, useMemo } from "react";
@@ -57,6 +58,10 @@ export const meta: V2_MetaFunction = () => {
 };
 
 function Document({ children }: Props) {
+  const matches = useMatches();
+
+  const isDisabled = matches.some((match) => match.handle?.disableJS);
+
   return (
     <html lang="en">
       <head>
@@ -68,7 +73,7 @@ function Document({ children }: Props) {
       <body>
         {children}
         <ScrollRestoration />
-        <Scripts />
+        {!isDisabled && <Scripts />}
         <LiveReload />
       </body>
     </html>
