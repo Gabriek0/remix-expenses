@@ -1,10 +1,17 @@
-import { Link, NavLink, useLoaderData } from "@remix-run/react";
+import { Link, NavLink, useFetcher, useLoaderData } from "@remix-run/react";
 
 // Components
 import { Logo } from "~/components/Util";
 
 function Header() {
+  const fetcher = useFetcher();
   const userId = useLoaderData<string | null>();
+
+  const handleSubmit = () =>
+    fetcher.submit(null, {
+      method: "post",
+      action: "/logout",
+    });
 
   return (
     <header id="main-header">
@@ -23,7 +30,9 @@ function Header() {
         <ul>
           <li>
             {userId ? (
-              <button className="cta-alt">Logout</button>
+              <button onClick={handleSubmit} type="submit" className="cta-alt">
+                Logout
+              </button>
             ) : (
               <Link to="/auth" className="cta">
                 Login

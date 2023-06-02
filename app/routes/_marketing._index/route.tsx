@@ -4,13 +4,6 @@ import { Link, V2_MetaFunction } from "@remix-run/react";
 // Icons
 import { FaArrowRight, FaChartBar, FaDollarSign } from "react-icons/fa";
 
-//
-import { getUserFromSession } from "~/features/auth/auth.server";
-
-export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
-  return await getUserFromSession(request as Request);
-};
-
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Home" }];
 };

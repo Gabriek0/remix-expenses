@@ -1,9 +1,15 @@
-import { LinksFunction } from "@remix-run/node";
+import {
+  LinksFunction,
+  LoaderArgs,
+  LoaderFunction,
+  Request,
+} from "@remix-run/node";
 
 import { Outlet } from "@remix-run/react";
 
 // Components
 import Header from "~/components/Header";
+import { getUserFromSession } from "~/features/auth/auth.server";
 
 // Styles
 import styles from "~/styles/marketing.css";
@@ -15,6 +21,10 @@ export const links: LinksFunction = () => {
       href: styles,
     },
   ];
+};
+
+export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
+  return await getUserFromSession(request as Request);
 };
 
 export default function MarketingParentPage() {

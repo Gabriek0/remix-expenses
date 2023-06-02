@@ -36,8 +36,24 @@ async function createUserSession(userId: string, path: string) {
   });
 }
 
+export async function destroyUserSession(request: Request) {
+  const session = await sessionStorage.getSession(
+    request.headers.get("Cookie")
+  );
+
+  return redirect("/", {
+    headers: {
+      "Set-Cookie": await sessionStorage.destroySession(session),
+    },
+  });
+}
+
 export async function getUserFromSession(request: Request) {
-  const userId = request.headers.get("Cookie");
+  const session = await sessionStorage.getSession(
+    request.headers.get("Cookie")
+  );
+
+  const userId = session.get("userId");
 
   return userId ? userId : null;
 }
@@ -63,8 +79,6 @@ export async function login({ email, password }: Credentials) {
       email,
     },
   });
-
-  console.log(credentials);
 
   if (!credentials) {
     const error = new Error("User does not exist.");
