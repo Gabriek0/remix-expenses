@@ -40,7 +40,7 @@ export async function requireUserSession(request: Request) {
   const userId = await getUserFromSession(request);
 
   if (!userId) {
-    throw redirect(`/auth?mode='login'`);
+    throw redirect(`/auth?mode=login`);
   }
 
   return userId;

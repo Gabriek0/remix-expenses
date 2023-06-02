@@ -34,7 +34,7 @@ function Header() {
                 Logout
               </button>
             ) : (
-              <Link to="/auth" className="cta">
+              <Link to={`/auth?mode=login`} className="cta">
                 Login
               </Link>
             )}

@@ -1,6 +1,7 @@
 import { Expense } from "~/models/Expense";
 
 export type IExpenseDTO = {
+  userId: string;
   title: string;
   amount: string;
   date: string;

@@ -16,6 +16,8 @@ export async function loader({ request }: LoaderArgs) {
 }
 
 export async function action({ request }: ActionArgs) {
+  const userId = await requireUserSession(request as Request);
+
   const form = Object.fromEntries(await request.formData()) as unknown;
   const data = form as Expense;
 
@@ -26,6 +28,7 @@ export async function action({ request }: ActionArgs) {
   }
 
   await expensesRepository.add({
+    userId,
     title: data.title,
     amount: String(data.amount),
     date: String(data.date),

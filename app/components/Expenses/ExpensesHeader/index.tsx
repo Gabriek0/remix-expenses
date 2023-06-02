@@ -10,6 +10,14 @@ import {
 import { Logo } from "~/components/Util";
 
 export function ExpensesHeader() {
+  const fetcher = useFetcher();
+
+  const handleSubmit = () =>
+    fetcher.submit(null, {
+      method: "post",
+      action: "/logout",
+    });
+
   return (
     <header id="main-header">
       <Logo />
@@ -26,9 +34,9 @@ export function ExpensesHeader() {
         </ul>
       </nav>
       <nav id="cta-nav">
-        <Link to="/auth" className="cta">
+        <button onClick={handleSubmit} className="cta">
           Logout
-        </Link>
+        </button>
       </nav>
     </header>
   );

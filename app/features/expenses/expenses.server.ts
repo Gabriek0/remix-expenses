@@ -5,13 +5,14 @@ import { IExpenseDTO, IExpensesRepository } from "./types/IExpensesRepository";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 
 class ExpensesRepository implements IExpensesRepository {
-  async add({ title, amount, date }: IExpenseDTO): Promise<Expense> {
+  async add({ title, amount, date, userId }: IExpenseDTO): Promise<Expense> {
     try {
       const expense = await db.expense.create({
         data: {
           title,
           amount: +amount,
           date: new Date(date),
+          User: { connect: { id: userId } },
         },
       });
 
