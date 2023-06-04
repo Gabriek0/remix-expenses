@@ -10,8 +10,8 @@
   <a href="#-Author">Author</a>
 </div>
 
-<div align="center" style="margin-top: 25px">
-<img src="/public/images/remix-expensive-desktop.gif"/>
+<div align="center">
+    <img style="margin-top: 25px" src="/public/images/remix-expensive-desktop.gif"/>
 </div>
 
 ### :computer: Project
