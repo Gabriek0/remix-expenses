@@ -18,6 +18,8 @@
 
 Remix Expensive is a project built in Remix in order to learn the framework and build a platform for controlling financial expenses.
 
+👉 Access the project: [Remix Expensive](https://remix-expensive-git-main-gabriek0.vercel.app/)
+
 ### :sparkles: Features
 
 - [x] The user can authenticate to the application.
